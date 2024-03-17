@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@300..400&display=swap');
+
+/* VARIABLES */
+:root {
+  /* COLORS */
+  --color-bg: #111;
+  --color-highlight: #333;
+  --color-text: #fff;
+  --color-border: #333;
+
+  /* SPACING, SIZING, ETC */
+  --spacing-small: 10px;
+  --spacing-normal: 20px;
+  --radius-normal: 20px;
+}
+
+/* HTML ELEMENTS */
+input {
+  all: unset;
+}
+
+button {
+  all: unset;
+}
+
+button:hover,
+button:focus {
+  background-color: #333;
+}
+
+/* COMMON */
+body {
+  background-color: black;
+  margin: 0;
+
+  /* TEXT */
+  color: var(--color-text);
+  font-family: "M PLUS 2", sans-serif;
+  font-size: 1rem;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
+  padding: var(--spacing-normal);
+}
+
+.big {
+  /* BIG TEXT */
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.module {
+  display: flex;
+  border: 3px solid var(--color-highlight);
+  border-radius: var(--radius-normal);
+  background-color: var(--color-bg);
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.module-grid {
+  margin: 0 auto;
+  max-width: 750px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: var(--spacing-normal);
+}
+
+/* MODULE SPECIFIC */
+search-bar {
+  display: inline-flex;
+  grid-column: 1 / -1;
+  gap: 10px;
+  aspect-ratio: auto;
+}
+
+search-bar>label {
+  padding: var(--spacing-small) var(--spacing-normal);
+}
+
+search-bar>label:hover {
+  background-color: #333;
+}
+
+search-bar>input {
+  width: 100%;
+}
+
+search-bar>button {
+  padding: var(--spacing-small) var(--spacing-normal);
+}
