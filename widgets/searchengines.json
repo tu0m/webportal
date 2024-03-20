@@ -1,0 +1,106 @@
+{
+    "a": {
+        "name": "",
+        "url": ""
+    },
+    "b": {
+        "name": "Bing",
+        "url": "https://www.bing.com/search?q="
+    },
+    "c": {
+        "name": "",
+        "url": ""
+    },
+    "d": {
+        "name": "DuckDuckGo",
+        "url": "https://duckduckgo.com/?q="
+    },
+    "e": {
+        "name": "Ebay",
+        "url": "https://www.google.com/search?q="
+    },
+    "f": {
+        "name": "",
+        "url": ""
+    },
+    "g": {
+        "name": "Google",
+        "url": "https://www.google.com/search?q="
+    },
+    "h": {
+        "name": "",
+        "url": ""
+    },
+    "i": {
+        "name": "",
+        "url": ""
+    },
+    "j": {
+        "name": "",
+        "url": ""
+    },
+    "k": {
+        "name": "",
+        "url": ""
+    },
+    "l": {
+        "name": "",
+        "url": ""
+    },
+    "m": {
+        "name": "Google Maps",
+        "url": "https://www.google.com/maps/search/"
+    },
+    "n": {
+        "name": "",
+        "url": ""
+    },
+    "o": {
+        "name": "",
+        "url": ""
+    },
+    "p": {
+        "name": "",
+        "url": ""
+    },
+    "q": {
+        "name": "Qwant",
+        "url": "https://www.qwant.com/?q="
+    },
+    "r": {
+        "name": "",
+        "url": ""
+    },
+    "s": {
+        "name": "",
+        "url": ""
+    },
+    "t": {
+        "name": "",
+        "url": ""
+    },
+    "u": {
+        "name": "",
+        "url": ""
+    },
+    "v": {
+        "name": "",
+        "url": ""
+    },
+    "w": {
+        "name": "Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/"
+    },
+    "x": {
+        "name": "",
+        "url": ""
+    },
+    "y": {
+        "name": "YouTube",
+        "url": "https://www.youtube.com/results?search_query="
+    },
+    "z": {
+        "name": "",
+        "url": ""
+    }
+}
