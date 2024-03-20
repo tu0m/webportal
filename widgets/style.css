@@ -1,0 +1,79 @@
+/* WEB COMPONENT STYLESHEET */
+
+/* HTML ELEMENTS */
+label {
+    padding: var(--spacing-s) var(--spacing-m) calc(var(--spacing-s) + 2px);
+    white-space: nowrap;
+}
+
+label:hover {
+    background-color: var(--color-highlight);
+}
+
+input {
+    all: unset;
+    width: 100%;
+}
+
+button {
+    all: unset;
+    padding: var(--spacing-s) var(--spacing-m) calc(var(--spacing-s) + 2px);
+}
+
+button:hover,
+button:focus {
+    background-color: var(--color-highlight);
+}
+
+/* MODULE CONTENT LAYOUT */
+
+.top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    font-size: 200%;
+    font-weight: 400;
+
+    /* add 2 pixels to bottom for more visually appealing alignment of content */
+    padding-bottom: 2px;
+}
+
+.btm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.tooltip {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0 5px;
+    margin: 10px 0;
+
+    text-align: center;
+    font-size: 75%;
+
+    border-radius: var(--radius-s);
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+.tooltip[hidden] {
+    display: none;
+}
