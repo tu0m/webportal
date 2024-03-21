@@ -25,6 +25,7 @@ button:focus {
     background-color: var(--color-highlight);
 }
 
+
 /* MODULE CONTENT LAYOUT */
 
 .top {
@@ -58,11 +59,11 @@ button:focus {
     gap: 20px;
 }
 
-.tooltip {
+.tab-icon {
     display: inline-flex;
     align-items: center;
 
-    padding: 0 5px;
+    padding: 0 8px;
     margin: 10px 0;
 
     text-align: center;
@@ -74,6 +75,32 @@ button:focus {
     background-color: var(--color-bg);
 }
 
-.tooltip[hidden] {
+.tab-icon[hidden] {
     display: none;
+}
+
+.favicon {
+    width: 60px;
+    height: 60px;
+}
+
+.placeholder::before {
+    display: flex;
+    content: '';
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 3px dashed var(--color-highlight);
+    animation: rotation 30s linear infinite;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
