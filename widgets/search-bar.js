@@ -25,7 +25,7 @@ class SearchBar extends HTMLElement {
         <label for="searchbar"></label>
         <div class="container">
             <input type="search" id="searchbar" name="q" />
-            <span class="tooltip" hidden>Tab</span>
+            <span class="tab-icon" hidden>Tab</span>
         </div>
         <button>➤</button>
         `
@@ -46,7 +46,7 @@ class SearchBar extends HTMLElement {
     disconnectedCallback() {
         this.label.removeEventListener('click', this.showSearchEngines)
         this.input.removeEventListener('keydown', this.keyPressHandler)
-        this.input.addEventListener('input', this.toggleTabIcon)
+        this.input.removeEventListener('input', this.toggleTabIcon)
         this.button.removeEventListener('click', this.search)
     }
 
@@ -76,23 +76,20 @@ class SearchBar extends HTMLElement {
     keyPressHandler = (e) => {
         if (e.key == 'Tab') {
             if (this.searchQuery.length != 1) return
+            // this checks if the entered character is found in the searchEngines.json
             if (searchEngines[this.searchQuery.toLowerCase()]?.name.length) {
                 e.preventDefault()
                 this.setAttribute('searchengine', searchEngines[this.searchQuery.toLowerCase()].name)
-                this.input.value = ""
-                this.toggleTabIcon()
             }
         }
 
         if (e.key == 'Enter') {
-            if (this.searchQuery.length == 0) return
             this.search()
-            this.input.value = ""
-            this.toggleTabIcon()
         }
     }
 
     toggleTabIcon = (e) => {
+        // this checks that there is 1 character in input and if the entered character is found in the searchEngines.json
         if (this.searchQuery.length == 1 && searchEngines[this.searchQuery.toLowerCase()]?.name.length) {
             this.shadowRoot.querySelector('span').removeAttribute('hidden')
         } else {
@@ -111,8 +108,12 @@ class SearchBar extends HTMLElement {
     }
 
     search = () => {
+        if (this.searchQuery.length == 0) return
         const url = this.searchEngineUrl + this.searchQuery
-        window.open(url, '_blank');
+        window.open(url, '_blank')
+        this.input.value = ""
+        this.toggleTabIcon()
+        this.input.blur()
     }
 }
 
