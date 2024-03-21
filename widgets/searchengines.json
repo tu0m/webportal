@@ -68,8 +68,8 @@
         "url": "https://www.qwant.com/?q="
     },
     "r": {
-        "name": "",
-        "url": ""
+        "name": "Reddit",
+        "url": "https://www.google.com/search?q=site:reddit.com%20"
     },
     "s": {
         "name": "",
