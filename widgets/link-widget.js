@@ -6,6 +6,11 @@ class LinkWidget extends HTMLElement {
         super();
     }
 
+    static get observedAttributes() {
+        // attributeChangedCallback() is triggered only by the attributes listed here
+        return ['name', 'url']
+    }
+
     connectedCallback() {
         const shadowRoot = this.attachShadow({ mode: "open" })
 
@@ -17,20 +22,76 @@ class LinkWidget extends HTMLElement {
         // add html
         const layout = `
         <div class="mid">
-            <img src="../TEMP/apple-icon-60x60.png"
-            alt="visit site"
-            />
+            
+        <img class="favicon placeholder" src="" alt="favicon" />
+        
         </div>
-        <div class="btm">reddit</div>
+        <div class="btm"></div>
+
         `
         shadowRoot.innerHTML = layout
+
+        // event listeners
+        shadowRoot.host.addEventListener('keydown', this.keyPressHandler)
+        shadowRoot.host.addEventListener('click', this.open)
     }
 
     disconnectedCallback() {
+        shadowRoot.host.removeEventListener('keydown', this.keyPressHandler)
+        shadowRoot.host.removeEventListener('click', this.open)
+
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        // wait for connectedCallback() to finish
+        window.customElements.whenDefined('link-widget').then(() => {
+            if (name == 'name') this.updateName(newValue)
+            if (name == 'url') this.updateFavicon(this.httpsify(newValue))
+        });
     }
+
+    httpsify(url) {
+        // add https:// if missing
+        if (url.includes('://')) return url
+        return 'https://' + url
+    }
+
+    updateName(name) {
+        this.shadowRoot.querySelector('.btm').textContent = name
+
+    }
+
+    async updateFavicon(url) {
+        // TODO: save all icons to localStorage? along with all other user customization?
+        const mid = this.shadowRoot.querySelector('.mid')
+        const img = new Image()
+
+        img.src = `https://www.google.com/s2/favicons?sz=64&domain_url=${url}`
+
+        img.onload = (() => {
+            if (img.height >= 64) {
+                img.classList = 'favicon'
+                img.alt = 'favicon'
+                mid.replaceChildren(img)
+            } else {
+                const initial = this.shadowRoot.querySelector('.btm').innerText.charAt(0).toUpperCase()
+                mid.replaceChildren(initial)
+            }
+        })
+    }
+
+
+    keyPressHandler = (e) => {
+        if (e.key == 'Enter' || e.key == ' ') {
+            this.open()
+        }
+    }
+
+    open = () => {
+        const url = this.httpsify(this.shadowRoot.host.getAttribute('url'))
+        window.open(url, '_blank');
+    }
+
 }
 
 customElements.define("link-widget", LinkWidget);
