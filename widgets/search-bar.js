@@ -80,6 +80,8 @@ class SearchBar extends HTMLElement {
             if (searchEngines[this.searchQuery.toLowerCase()]?.name.length) {
                 e.preventDefault()
                 this.setAttribute('searchengine', searchEngines[this.searchQuery.toLowerCase()].name)
+                this.input.value = ""
+                this.toggleTabIcon()
             }
         }
 
