@@ -39,7 +39,6 @@ class LinkWidget extends HTMLElement {
     disconnectedCallback() {
         shadowRoot.host.removeEventListener('keydown', this.keyPressHandler)
         shadowRoot.host.removeEventListener('click', this.open)
-
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -58,7 +57,6 @@ class LinkWidget extends HTMLElement {
 
     updateName(name) {
         this.shadowRoot.querySelector('.btm').textContent = name
-
     }
 
     async updateFavicon(url) {
@@ -75,11 +73,13 @@ class LinkWidget extends HTMLElement {
                 mid.replaceChildren(img)
             } else {
                 const initial = this.shadowRoot.querySelector('.btm').innerText.charAt(0).toUpperCase()
-                mid.replaceChildren(initial)
+                const div = document.createElement('div')
+                div.classList = 'initial'
+                div.innerText = initial
+                mid.replaceChildren(div)
             }
         })
     }
-
 
     keyPressHandler = (e) => {
         if (e.key == 'Enter' || e.key == ' ') {
@@ -89,7 +89,8 @@ class LinkWidget extends HTMLElement {
 
     open = () => {
         const url = this.httpsify(this.shadowRoot.host.getAttribute('url'))
-        window.open(url, '_blank');
+        window.open(url, '_blank')
+        this.shadowRoot.host.blur()
     }
 
 }
