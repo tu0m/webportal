@@ -11,13 +11,17 @@
 </head>
 
 <body>
-  <div class="widget-grid">
-    <search-bar class="bar widget" searchengine="Google"></search-bar>
-    <clock-widget class="square widget" tabindex="0" city="Helsinki"></clock-widget>
-    <date-widget class="square widget" tabindex="0"></date-widget>
-    <link-widget class="square widget" tabindex="0" name="reddit" url="https://www.reddit.com/"></link-widget>
-    <link-widget class="square widget" tabindex="0" name="Vastalauta" url="vastalauta.org"></link-widget>
-    <link-widget class="square widget" tabindex="0" name="4chan" url="4chan.org"></link-widget>
+  <main id="widget-grid">
+
+  </main>
+  <button id="menu-button" title="Open menu">＋</button>
+  <div id="menu-bg" hidden>
+    <section id="menu">
+      <ul id="widget-list">
+
+      </ul>
+      <button id="add-button">＋ Add widget</button>
+    </section>
   </div>
 
   <script type="module" src="./main.js"></script>
