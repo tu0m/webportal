@@ -9,7 +9,7 @@ class SearchBar extends HTMLElement {
 
     static get observedAttributes() {
         // attributeChangedCallback() is triggered only by the attributes listed here
-        return ['searchengine']
+        return ['data-searchengine']
     }
 
     connectedCallback() {
@@ -52,6 +52,7 @@ class SearchBar extends HTMLElement {
 
     async attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue === newValue) return
+        // TODO: check if newValue is found in seachEngines, default to Google?
 
         // this thing waits for this.label to become defined, because attributeChangedCallback() is called before connectedCallback()
         while (this.label == undefined) {
@@ -69,7 +70,7 @@ class SearchBar extends HTMLElement {
 
     changeSearchEngine(key) {
         if (searchEngines[key].name.length) {
-            this.setAttribute('searchengine', searchEngines[key].name)
+            this.setAttribute('data-searchengine', searchEngines[key].name)
         }
     }
 
@@ -79,7 +80,7 @@ class SearchBar extends HTMLElement {
             // this checks if the entered character is found in the searchEngines.json
             if (searchEngines[this.searchQuery.toLowerCase()]?.name.length) {
                 e.preventDefault()
-                this.setAttribute('searchengine', searchEngines[this.searchQuery.toLowerCase()].name)
+                this.setAttribute('data-searchengine', searchEngines[this.searchQuery.toLowerCase()].name)
                 this.input.value = ""
                 this.toggleTabIcon()
             }
@@ -119,4 +120,4 @@ class SearchBar extends HTMLElement {
     }
 }
 
-customElements.define("search-bar", SearchBar);
+customElements.define("search-widget", SearchBar);
