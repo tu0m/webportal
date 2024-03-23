@@ -1,7 +1,7 @@
 import sheet from './style.css?inline'
 
 class ClockWidget extends HTMLElement {
-    static observedAttributes = ["city"];
+    static observedAttributes = ["data-city"];
 
     constructor() {
         super();

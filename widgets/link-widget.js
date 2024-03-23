@@ -8,7 +8,7 @@ class LinkWidget extends HTMLElement {
 
     static get observedAttributes() {
         // attributeChangedCallback() is triggered only by the attributes listed here
-        return ['name', 'url']
+        return ['data-name', 'data-url']
     }
 
     connectedCallback() {
@@ -44,8 +44,8 @@ class LinkWidget extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         // wait for connectedCallback() to finish
         window.customElements.whenDefined('link-widget').then(() => {
-            if (name == 'name') this.updateName(newValue)
-            if (name == 'url') this.updateFavicon(this.httpsify(newValue))
+            if (name == 'data-name') this.updateName(newValue)
+            if (name == 'data-url') this.updateFavicon(this.httpsify(newValue))
         });
     }
 
