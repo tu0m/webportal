@@ -29,7 +29,7 @@ class DateWidget extends HTMLElement {
     }
 
     disconnectedCallback() {
-        clearInterval(interval)
+        clearInterval(this.interval)
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
