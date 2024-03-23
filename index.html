@@ -18,9 +18,23 @@
   <div id="menu-bg" hidden>
     <section id="menu">
       <ul id="widget-list">
-
+        <li>
+          <button id="move-button">↕︎</button>
+          <span>Search</span>
+          <select name="searchengines">
+            <option>Google</option>
+          </select>
+          <button id="del-button">✕</button>
+        </li>
       </ul>
-      <button id="add-button">＋ Add widget</button>
+      <div id="add">
+        <select id="add-widget-types" name="widgets">
+          <option>Select type</option>
+        </select>
+        <input id="add-attribute-1" placeholder="Set attribute" disabled></input>
+        <input id="add-attribute-2" placeholder="Set attribute" disabled></input>
+        <button id="add-button">＋ Add widget</button>
+      </div>
     </section>
   </div>
 

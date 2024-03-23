@@ -7,7 +7,7 @@ html {
   /* COLORS */
   --color-bg: #111;
   --color-highlight: #333;
-  --color-highlight-white: #fff000;
+  --color-highlight-white: #f7f7f7;
   --color-attention: #777;
   --color-text: #fff;
   --color-border: #333;
@@ -41,7 +41,7 @@ body {
   font-weight: 400;
   font-style: normal;
 
-  background-color: black;
+  background-color: #777;
 
   transition: filter 0.5s ease-out;
 }
@@ -127,15 +127,19 @@ button {
   transform: translateY(-100%);
   transition: transform ease-in 0.5s;
 
-  padding: var(--spacing-m);
+
   margin: 0 auto;
   border-radius: 0 0 var(--radius-m) var(--radius-m);
+  overflow: hidden;
 
   background-color: white;
   color: black;
   opacity: 100%;
 
-  box-shadow: 0px 3px 20px 5px #00000077;
+  box-shadow:
+    0px 1px 7px -2px rgba(0, 0, 0, 0.4),
+    0px 10px 10px -5px rgba(0, 0, 0, 0.1),
+    0px 10px 20px 0px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 800px) {
@@ -149,17 +153,56 @@ button {
   transition: transform ease-out 0.5s;
 }
 
-#add-button {
-  padding: 11px 0;
-
-}
-
-#add-button:hover,
-#add-button:focus-visible {
-  background-color: var(--color-highlight-white);
-}
+/* WIDGET LIST, ADD MENU */
 
 #widget-list {
+  all: unset;
   height: 100%;
-  background-color: lightblue;
+  background-color: #fff;
+  padding: 20px 30px;
+}
+
+li {
+  display: inline-flex;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+}
+
+li>button,
+#add>button {
+  padding: 5px 20px;
+  background-color: #ffffff;
+  white-space: nowrap;
+}
+
+li>button:hover,
+#add>button:hover,
+li>button:focus-visible,
+#add>button:focus-visible {
+  background-color: lightyellow;
+  outline: 3px solid #fff000;
+}
+
+li>select,
+#add>select,
+#add>input {
+  padding: 10px;
+  border-radius: var(--radius-s);
+}
+
+li>select,
+#add>input {
+  width: 100%;
+}
+
+
+#add {
+  display: inline-flex;
+
+  background-color: #ddd;
+  border-top: 3px solid #ccc;
+
+  padding: 15px 30px;
+  gap: 10px;
 }
