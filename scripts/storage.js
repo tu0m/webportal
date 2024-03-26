@@ -1,16 +1,7 @@
 function save(object) {
     // check data integrity, discard invalid?
 
-    // data format:
-    //
-    // [{
-    //     type: "",
-    //     attributes: {
-    //         "": ""
-    //     }
-    // }]
-
-    if (object.length == 0) return new Error('nothing to save')
+    if (!object) return new Error('nothing to save')
     if (!localStorageAvailable()) return new Error('localStorage not available')
 
     localStorage.setItem('widgets', JSON.stringify(object))
@@ -19,26 +10,51 @@ function save(object) {
 function load() {
     const data = localStorage.getItem('widgets')
     if (data) return JSON.parse(data)
+
     return loadDefault()
 }
 
 function loadDefault() {
     return [{
         type: "Search",
-        attributes: { "data-searchengine": "Google" }
+        attributes: {
+            "data-searchengine": "Google",
+            "uuid": crypto.randomUUID()
+        }
     }]
+
+    // return [{
+    //     type: "Link",
+    //     attributes: {
+    //         "data-name": "Reddit",
+    //         "data-url": "reddit.com"
+    //     }
+    // }]
 }
 
 function localStorageAvailable() {
     try {
-        const storage = window[type]
-        const x = "__storage_test__"
-        storage.setItem(x, x)
-        storage.removeItem(x)
+        const x = "test"
+        localStorage.setItem(x, x)
+        localStorage.removeItem(x)
         return true
     } catch {
         return false
     }
 }
 
-export { save, load };
+function add(object) {
+    let data = load()
+    data.push(object)
+    try {
+        save(data)
+    } catch {
+        return new Error('could not save')
+    }
+}
+
+function remove(object) {
+
+}
+
+export { save, load, add, remove };
