@@ -1,91 +1,142 @@
 // menu UI stuff
 // render loaded config to list html
 // parse list html to saveable config
-import * as widget from '../widgets/index.js'
+import * as widgets from '../widgets/index.js'
+import * as storage from '../scripts/storage.js'
 
 const widgetGrid = document.querySelector('#widget-grid')
 const widgetList = document.querySelector('#widget-list')
 const menuBackdrop = document.querySelector('#menu-bg')
 const menuElement = document.querySelector('#menu')
 
-function renderContent(array) {
-    widgetGrid.innerHTML = ''
-    // widgetList.innerHTML = ''
+function renderContent(array = storage.load()) {
+    if (!array) return
+    const widgetGridItems = new DocumentFragment()
+    // const widgetListItems = new DocumentFragment()
 
     array.forEach(object => {
-        ObjectToGrid(object)
-        ObjectToList(object)
+        widgetGridItems.append(_createGridHtml(object))
+        // widgetListItems.append(_createListHtml(object))
+    })
+
+    widgetGrid.replaceChildren(widgetGridItems)
+    // widgetList.replaceChildren(widgetListItems)
+
+    // updateWidgetDropdown()
+    const div = document.querySelector('#widget-type')
+    div.replaceChildren(_createListOfWidgetTypes())
+}
+
+function _createGridHtml(object) {
+    const htmlTag = document.createElement(widgets.getTag(object.type))
+
+    htmlTag.setAttribute('draggable', true)
+    // add default attributes
+    for (let key in widgets.getAttributes(object.type)) {
+        if (key.startsWith('data-')) continue
+        // check if attribute value is a function and run it
+        // this is mainly meant for UUID, so that every widget has unique value
+        if (widgets.getAttributes(object.type)[key] instanceof Function) {
+            htmlTag.setAttribute(key, widgets.getAttributes(object.type)[key]())
+        } else {
+            htmlTag.setAttribute(key, widgets.getAttributes(object.type)[key])
+        }
+    }
+
+    // add user set attributes
+    for (let key in object.attributes) {
+        htmlTag.setAttribute(key, object.attributes[key])
+    }
+
+    return htmlTag
+}
+
+function _createListOfWidgetTypes() {
+    const types = widgets.getTypes()
+
+    const select = document.createElement('select')
+    select.required = true
+    // first option as a title
+    let initialOption = document.createElement('option')
+    initialOption.innerText = 'select widget'
+    initialOption.value = ""
+    select.appendChild(initialOption)
+    // actual options after
+    for (let type of types) {
+        let option = document.createElement('option')
+        option.innerText = type
+        option.value = type
+        select.appendChild(option)
+    }
+    return select
+}
+
+function createInputsForWidgetAttributes(type) {
+    const div = document.querySelector('#widget-attributes')
+    const attributes = widgets.getAttributes(type)
+
+    const dom = new DocumentFragment()
+    for (let key in attributes) {
+        if (!key.startsWith('data-')) continue
+        if (Array.isArray(attributes[key])) {
+            // create dropdown
+            const select = document.createElement('select')
+            select.id = key
+            for (let item of attributes[key]) {
+                let option = document.createElement('option')
+                option.value = item
+                option.innerText = item
+                select.appendChild(option)
+            }
+            dom.append(select)
+        } else {
+            // create input field
+            const input = document.createElement('input')
+
+            key == 'data-url' ? input.type = "url" : input.type = "text"
+
+            input.id = key
+            input.placeholder = widgets.getAttributes(type)[key]
+            input.required = true
+            dom.append(input)
+        }
+    }
+    dom.childElementCount > 0 ? div.removeAttribute('hidden') : div.setAttribute('hidden', true)
+    div.replaceChildren(dom)
+
+    // TODO: make div hidden by default, and then show it here
+}
+
+
+function newWidget() {
+    // create new object if attributes are set
+    // storage.add(object)?
+    // renderContent()?
+
+    const type = _getSelectedType()
+    const attributes = _getSelectedAttributes()
+
+    function _getSelectedType() {
+        const type = document.querySelector('#widget-type > select').value
+        if (widgets.getTypes(type)) return type
+    }
+
+    function _getSelectedAttributes() {
+        const nodeList = document.querySelectorAll('[id^="data-"]')
+
+        let object = {}
+        for (let node of nodeList) {
+            if (node.value) object[node.id] = node.value
+        }
+        object["uuid"] = crypto.randomUUID()
+
+        return object
+    }
+
+    if (type) storage.add({
+        type: type,
+        attributes
     })
 }
 
-function ObjectToGrid(object) {
-    // find object's html tag
-    let htmlTag = widget.htmlTag(object.type)
-
-    // set attributes in the html
-    for (let attribute in object.attributes) {
-        htmlTag = htmlTag.replace(attribute, `${attribute}="${object.attributes[attribute]}"`)
-    }
-
-    // add to dom
-    widgetGrid.innerHTML += htmlTag
-}
-
-function ObjectToList(object) {
-    // render list item from object
-
-    //   <li>
-    //     <button id="move-button">↕︎</button>
-    //     <span>Search</span>
-    //     <select name="searchengines">
-    //       <option>Google</option>
-    //     </select>
-    //     <button id="del-button">╳</button>
-    //   </li>
-
-
-
-}
-
-function openMenu() {
-    menuElement.removeEventListener('transitionend', _setHiddenAfterTransition);
-    menuBackdrop.removeAttribute('hidden')
-    // this forces reflow/repaint, allowing for css animation to work
-    void (menuBackdrop.offsetWidth)
-    menuElement.classList.add('open')
-}
-
-function closeMenu() {
-    menuElement.addEventListener('transitionend', _setHiddenAfterTransition);
-    menuElement.classList.remove('open')
-}
-
-function _setHiddenAfterTransition(e) {
-    // https://cloudfour.com/thinks/transitioning-hidden-elements/
-    if (e.target === menuElement) {
-        menuBackdrop.setAttribute('hidden', true)
-        menuElement.removeEventListener('transitionend', _setHiddenAfterTransition);
-    }
-}
-
-// function _htmlToObject() {
-
-// }
-
-// function _ObjectToHtml() {
-
-// }
-
-// function add() {
-
-// }
-
-// function move() {
-//     // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
-// }
-
-// function del() {
-
-// }
-
-export { renderContent, openMenu, closeMenu };
+export { renderContent, createInputsForWidgetAttributes, newWidget };

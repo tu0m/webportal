@@ -41,9 +41,18 @@ body {
   font-weight: 400;
   font-style: normal;
 
-  background-color: #777;
+  background-color: darkslategrey;
 
   transition: filter 0.5s ease-out;
+}
+
+[popover] {
+  all: unset;
+  position: fixed;
+  overflow: auto;
+
+  color: CanvasText;
+  background-color: Canvas;
 }
 
 button {
@@ -51,6 +60,11 @@ button {
 
   border-radius: var(--radius-s);
   text-align: center;
+}
+
+select,
+input {
+  padding: 10px 20px;
 }
 
 #widget-grid {
@@ -108,101 +122,100 @@ button {
   background-color: var(--color-highlight);
 }
 
-
-#menu-bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-
-  /* backdrop-filter: brightness(50%); */
-}
-
 #menu {
   display: flex;
   flex-direction: column;
 
-  max-width: 720px;
-  max-height: 80vh;
+  min-width: 300px;
 
+  border-radius: var(--radius-m);
+
+  top: var(--spacing-s);
+  right: var(--spacing-s);
+
+  opacity: 0;
   transform: translateY(-100%);
-  transition: transform ease-in 0.5s;
+  transition: all ease-in 0.2s;
 
-
-  margin: 0 auto;
-  border-radius: 0 0 var(--radius-m) var(--radius-m);
-  overflow: hidden;
-
-  background-color: white;
-  color: black;
-  opacity: 100%;
+  border: 3px solid #ccc;
 
   box-shadow:
-    0px 1px 7px -2px rgba(0, 0, 0, 0.4),
-    0px 10px 10px -5px rgba(0, 0, 0, 0.1),
-    0px 10px 20px 0px rgba(0, 0, 0, 0.2);
+    0 1px 1px rgba(0, 0, 0, 0.12),
+    0 2px 2px rgba(0, 0, 0, 0.12),
+    0 4px 4px rgba(0, 0, 0, 0.12),
+    0 8px 8px rgba(0, 0, 0, 0.12),
+    0 16px 16px rgba(0, 0, 0, 0.12);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 424px) {
   #menu {
-    margin: 0 20px;
+    left: var(--spacing-s);
   }
 }
 
-#menu.open {
+#menu:popover-open {
+  opacity: 100%;
   transform: translateY(0);
-  transition: transform ease-out 0.5s;
+  transition: all ease-out 0.2s;
 }
 
-/* WIDGET LIST, ADD MENU */
-
-#widget-list {
-  all: unset;
-  height: 100%;
-  background-color: #fff;
-  padding: 20px 30px;
+#widget-type,
+#widget-attributes {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-m);
+  gap: var(--spacing-m);
 }
 
-li {
-  display: inline-flex;
-  gap: 20px;
-  width: 100%;
+#widget-attributes {
+  background-color: var(--color-highlight-white);
+  border-top: 3px solid #ddd;
+  transition: height ease-out 0.2s;
+}
+
+#widget-attributes[hidden] {
+  display: none;
+}
+
+#menu>button {
+  border-radius: 0;
+  border-top: 3px solid #ddd;
+  padding: var(--spacing-m);
+}
+
+#menu>button:hover,
+#menu>button:focus-visible {
+  background-color: #fff000;
+}
+
+#delete-area {
+  display: flex;
   align-items: center;
-}
+  justify-content: center;
 
-li>button,
-#add>button {
-  padding: 5px 20px;
-  background-color: #ffffff;
-  white-space: nowrap;
-}
-
-li>button:hover,
-#add>button:hover,
-li>button:focus-visible,
-#add>button:focus-visible {
-  background-color: lightyellow;
-  outline: 3px solid #fff000;
-}
-
-li>select,
-#add>select,
-#add>input {
-  padding: 10px;
-  border-radius: var(--radius-s);
-}
-
-li>select,
-#add>input {
+  position: fixed;
+  bottom: 0;
   width: 100%;
+  height: 100px;
+  padding: 20px 0;
+
+  color: white;
+
+  background: linear-gradient(to top, black 0%,
+      rgba(0, 0, 0, 0.738) 19%,
+      rgba(0, 0, 0, 0.541) 34%,
+      rgba(0, 0, 0, 0.382) 47%,
+      rgba(0, 0, 0, 0.278) 56.5%,
+      rgba(0, 0, 0, 0.194) 65%,
+      rgba(0, 0, 0, 0.126) 73%,
+      rgba(0, 0, 0, 0.075) 80.2%,
+      rgba(0, 0, 0, 0.042) 86.1%,
+      rgba(0, 0, 0, 0.021) 91%,
+      rgba(0, 0, 0, 0.008) 95.2%,
+      rgba(0, 0, 0, 0.002) 98.2%,
+      transparent 100%);
 }
 
-
-#add {
-  display: inline-flex;
-
-  background-color: #ddd;
-  border-top: 3px solid #ccc;
-
-  padding: 15px 30px;
-  gap: 10px;
+#delete-area[hidden] {
+  display: none;
 }

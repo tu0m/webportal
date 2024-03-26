@@ -14,29 +14,20 @@
   <main id="widget-grid">
 
   </main>
-  <button id="menu-button" title="Open menu">＋</button>
-  <div id="menu-bg" hidden>
-    <section id="menu">
-      <ul id="widget-list">
-        <li>
-          <button id="move-button">↕︎</button>
-          <span>Search</span>
-          <select name="searchengines">
-            <option>Google</option>
-          </select>
-          <button id="del-button">✕</button>
-        </li>
-      </ul>
-      <div id="add">
-        <select id="add-widget-types" name="widgets">
-          <option>Select type</option>
-        </select>
-        <input id="add-attribute-1" placeholder="Set attribute" disabled></input>
-        <input id="add-attribute-2" placeholder="Set attribute" disabled></input>
-        <button id="add-button">＋ Add widget</button>
-      </div>
-    </section>
-  </div>
+
+  <button id="menu-button" title="Open menu" popovertarget="menu">＋</button>
+
+  <form id="menu" method="dialog" popover anchor="menu-button">
+    <div id="widget-type">
+      <select>
+      </select>
+    </div>
+    <div id="widget-attributes" hidden="true">
+    </div>
+    <button type="submit" id="add-button">＋ add widget</button>
+  </form>
+
+  <div id="delete-area" hidden>drag to delete</div>
 
   <script type="module" src="./main.js"></script>
   <noscript>Please enable JavaScript for this site to work.</noscript>
