@@ -8,30 +8,40 @@ import searchEngines from './searchengines.json'
 const library = [
     {
         type: "Search",
-        tag: `<search-widget class="bar widget" data-searchengine></search-widget>`,
+        tag: 'search-widget',
         attributes: {
-            'data-searchengine': _searchEngineNames()
-        },
+            'data-searchengine': _searchEngineNames(),
+            class: 'bar widget',
+            uuid: _randomUUID
+        }
     },
     {
         type: "Clock",
-        tag: `<clock-widget class="square widget" data-city></clock-widget>`,
+        tag: 'clock-widget',
         attributes: {
-            'data-city': 'Location (currently not working)'
-        },
+            'data-city': 'Location (WIP)',
+            class: 'square widget',
+            uuid: _randomUUID
+        }
     },
     {
         type: "Date",
-        tag: `<date-widget class="square widget"></date-widget>`,
-        attributes: null,
+        tag: 'date-widget',
+        attributes: {
+            class: 'square widget',
+            uuid: _randomUUID
+        }
     },
     {
         type: "Link",
-        tag: `<link-widget class="square widget" tabindex="0" data-name data-url></link-widget>`,
+        tag: 'link-widget',
         attributes: {
             'data-name': 'Website name',
-            'data-url': 'URL'
-        },
+            'data-url': 'URL',
+            class: 'square widget',
+            tabindex: '0',
+            uuid: _randomUUID
+        }
     },
 ]
 
@@ -43,16 +53,29 @@ function _searchEngineNames() {
     return array
 }
 
-function types() {
+function _randomUUID() {
+    return crypto.randomUUID()
+}
+
+function getTypes() {
     return library.map(item => item.type)
 }
 
-function attributes(type) {
-    return library.find(item => item.type == type).attributes
+function getAttributes(type) {
+    try {
+        return library.find(item => item.type == type).attributes
+    } catch {
+        return null
+    }
+
 }
 
-function htmlTag(type) {
-    return library.find(item => item.type == type).tag
+function getTag(type) {
+    try {
+        return library.find(item => item.type == type).tag
+    } catch {
+        return null
+    }
 }
 
-export { library, types, attributes, htmlTag };
+export { library, getTypes, getAttributes, getTag };
