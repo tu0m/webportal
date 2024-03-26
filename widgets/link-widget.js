@@ -23,7 +23,7 @@ class LinkWidget extends HTMLElement {
         const layout = `
         <div class="mid">
             
-        <img class="favicon placeholder" src="" alt="favicon" />
+        <img class="favicon placeholder" src="" alt="favicon"/>
         
         </div>
         <div class="btm"></div>
@@ -37,8 +37,8 @@ class LinkWidget extends HTMLElement {
     }
 
     disconnectedCallback() {
-        shadowRoot.host.removeEventListener('keydown', this.keyPressHandler)
-        shadowRoot.host.removeEventListener('click', this.open)
+        this.shadowRoot.host.removeEventListener('keydown', this.keyPressHandler)
+        this.shadowRoot.host.removeEventListener('click', this.open)
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -70,6 +70,7 @@ class LinkWidget extends HTMLElement {
             if (img.height >= 64) {
                 img.classList = 'favicon'
                 img.alt = 'favicon'
+                img.draggable = false
                 mid.replaceChildren(img)
             } else {
                 const initial = this.shadowRoot.querySelector('.btm').innerText.charAt(0).toUpperCase()
@@ -88,7 +89,7 @@ class LinkWidget extends HTMLElement {
     }
 
     open = () => {
-        const url = this.httpsify(this.shadowRoot.host.getAttribute('url'))
+        const url = this.httpsify(this.shadowRoot.host.getAttribute('data-url'))
         window.open(url, '_blank')
         this.shadowRoot.host.blur()
     }
