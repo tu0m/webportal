@@ -10,8 +10,8 @@ html {
   --color-highlight-white: #f7f7f7;
   --color-attention: #777;
   --color-text: #fff;
+  --color-hover: orangered;
   --color-border: #333;
-
   /* SPACING, SIZING, ETC */
   --spacing-s: 10px;
   --spacing-m: 20px;
@@ -41,7 +41,7 @@ body {
   font-weight: 400;
   font-style: normal;
 
-  background-color: darkslategrey;
+  background-color: black;
 
   transition: filter 0.5s ease-out;
 }
@@ -156,7 +156,6 @@ input {
 #menu:popover-open {
   opacity: 100%;
   transform: translateY(0);
-  transition: all ease-out 0.2s;
 }
 
 #widget-type,
@@ -199,7 +198,10 @@ input {
   height: 100px;
   padding: 20px 0;
 
-  color: white;
+  color: var(--color-text);
+
+  opacity: 0;
+  transition: opacity ease-in 0.2s;
 
   background: linear-gradient(to top, black 0%,
       rgba(0, 0, 0, 0.738) 19%,
@@ -216,6 +218,6 @@ input {
       transparent 100%);
 }
 
-#delete-area[hidden] {
-  display: none;
+#delete-area:popover-open {
+  opacity: 1;
 }

@@ -4,8 +4,10 @@ import * as drag from './scripts/draganddrop.js'
 
 function eventHandler(e) {
   switch (true) {
-    case ((e.key == 'Enter' || e.key == ' ' || e.button == 0) && e.target.id == 'add-button'):
+    case (e.type == 'submit'):
       ui.newWidget()
+      e.target.hidePopover()
+      ui.createInputsForWidgetAttributes()
       ui.renderContent()
       break;
     case (e.type == 'change' && e.target.parentElement.id == 'widget-type'):
@@ -33,6 +35,7 @@ function dragAndDropHandler(e) {
       break;
     case (e.type == 'drop'):
       drag.drop(e)
+      ui.renderContent()
       break;
   }
 }
@@ -48,19 +51,40 @@ function dragAndDropHandler(e) {
 
 ui.renderContent()
 
+// setup event listeners
 window.onload = () => {
-  document.addEventListener('keydown', eventHandler)
-  document.addEventListener('mouseup', eventHandler)
+  // document.addEventListener('keydown', eventHandler)
+  // document.addEventListener('mouseup', eventHandler)
   document.addEventListener('change', eventHandler)
+  document.addEventListener('submit', eventHandler)
 
-  // drag and drop
-  document.addEventListener('dragstart', dragAndDropHandler);
-  document.addEventListener('dragend', dragAndDropHandler);
-  document.addEventListener('dragenter', dragAndDropHandler);
-  document.addEventListener('dragleave', dragAndDropHandler);
-  document.addEventListener('dragover', dragAndDropHandler);
-  document.addEventListener('drop', dragAndDropHandler);
+  const widgetGrid = document.querySelector('#widget-grid')
+  const observer = new MutationObserver(callback)
 
+  function callback() {
+    // re-add all event listeners for widgets after DOM changes
+    for (let widget of widgetGrid.childNodes) {
+      widget.removeEventListener('dragstart', dragAndDropHandler);
+      widget.removeEventListener('dragend', dragAndDropHandler);
+      widget.removeEventListener('dragenter', dragAndDropHandler);
+      widget.removeEventListener('dragleave', dragAndDropHandler);
+      widget.removeEventListener('dragover', dragAndDropHandler);
+      widget.removeEventListener('drop', dragAndDropHandler);
+
+      widget.addEventListener('dragstart', dragAndDropHandler);
+      widget.addEventListener('dragend', dragAndDropHandler);
+      widget.addEventListener('dragenter', dragAndDropHandler);
+      widget.addEventListener('dragleave', dragAndDropHandler);
+      widget.addEventListener('dragover', dragAndDropHandler);
+      widget.addEventListener('drop', dragAndDropHandler);
+    }
+  }
+  observer.observe(widgetGrid, { childList: true })
+  callback()
+
+  const deleteArea = document.querySelector('#delete-area')
+  deleteArea.addEventListener('dragenter', dragAndDropHandler)
+  deleteArea.addEventListener('dragleave', dragAndDropHandler)
+  deleteArea.addEventListener('dragover', dragAndDropHandler)
+  deleteArea.addEventListener('drop', dragAndDropHandler)
 }
-
-
