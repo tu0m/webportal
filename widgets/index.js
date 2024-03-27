@@ -12,6 +12,7 @@ const library = [
         attributes: {
             'data-searchengine': _searchEngineNames(),
             class: 'bar widget',
+            draggable: false,
             uuid: _randomUUID
         }
     },
@@ -21,6 +22,7 @@ const library = [
         attributes: {
             'data-city': 'Location (WIP)',
             class: 'square widget',
+            draggable: true,
             uuid: _randomUUID
         }
     },
@@ -29,6 +31,7 @@ const library = [
         tag: 'date-widget',
         attributes: {
             class: 'square widget',
+            draggable: true,
             uuid: _randomUUID
         }
     },
@@ -40,6 +43,7 @@ const library = [
             'data-url': 'URL',
             class: 'square widget',
             tabindex: '0',
+            draggable: true,
             uuid: _randomUUID
         }
     },
@@ -78,4 +82,8 @@ function getTag(type) {
     }
 }
 
-export { library, getTypes, getAttributes, getTag };
+function isDraggable(type) {
+    return library.find(item => item.type == type).attributes['draggable']
+}
+
+export { library, getTypes, getAttributes, getTag, isDraggable };
