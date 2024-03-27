@@ -64,6 +64,8 @@ window.onload = () => {
   function callback() {
     // re-add all event listeners for widgets after DOM changes
     for (let widget of widgetGrid.childNodes) {
+      if (widget.getAttribute('draggable') == 'false') continue
+
       widget.removeEventListener('dragstart', dragAndDropHandler);
       widget.removeEventListener('dragend', dragAndDropHandler);
       widget.removeEventListener('dragenter', dragAndDropHandler);
