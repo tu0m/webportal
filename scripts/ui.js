@@ -98,8 +98,6 @@ function createInputsForWidgetAttributes(type) {
     }
     dom.childElementCount > 0 ? div.removeAttribute('hidden') : div.setAttribute('hidden', true)
     div.replaceChildren(dom)
-
-    // TODO: make div hidden by default, and then show it here
 }
 
 

@@ -2,7 +2,7 @@ function save(object) {
     // check data integrity, discard invalid?
 
     if (!object) return new Error('nothing to save')
-    if (!localStorageAvailable()) return new Error('localStorage failed')
+    if (!_localStorageAvailable()) return new Error('localStorage failed')
 
     localStorage.setItem('widgets', JSON.stringify(object))
 }
@@ -13,10 +13,10 @@ function load() {
     const data = localStorage.getItem('widgets')
     if (data) return JSON.parse(data)
 
-    return loadDefault()
+    return _loadDefault()
 }
 
-function loadDefault() {
+function _loadDefault() {
     return [{
         type: "Search",
         attributes: {
@@ -26,7 +26,7 @@ function loadDefault() {
     }]
 }
 
-function localStorageAvailable() {
+function _localStorageAvailable() {
     try {
         const x = "test"
         localStorage.setItem(x, x)

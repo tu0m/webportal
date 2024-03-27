@@ -169,8 +169,8 @@ input {
 #widget-attributes {
   background-color: var(--color-highlight-white);
   border-top: 3px solid #ddd;
-  transition: height ease-out 0.2s;
 }
+
 
 #widget-attributes[hidden] {
   display: none;
