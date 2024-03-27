@@ -1,6 +1,6 @@
 Web Portal
 ===
-
+A simple startpage with a multi-engine search bar and customizable widgets.
 
 TO-DO
 ---
@@ -8,17 +8,17 @@ TO-DO
 ### Widgets
 
 - [x] Link
-- [ ] Time (WIP)
+- [x] Time
     - [ ] Time zones, cities
     - [ ] Analog clock (separate widget?)
 - [x] Date
     - Current day's kanji?
-- [ ] Current price of electricity
+- [ ] Current price of electricity (Nordpool)
     - ENTSO-E API: https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html
     - Fingrid API: https://data.fingrid.fi/instructions
 - [ ] Current weather
     - [ ] yr.no API
-- [ ] Search bar with multiple search engines
+- [x] Search bar with multiple search engines
     - [x] Tab shortcut to change engine
     - [ ] Dropdown menu to change engine (for mobile)
     - [ ] Edit / add search engines
@@ -44,9 +44,10 @@ TO-DO
 
 - [ ] Themes / change color scheme
     - Auto based on wallpaper?
-
 - [ ] Scaling
     - 1x, 2x, 3x
     - For television use / public places / etc ?
-
 - [ ] Hide widgets on idle (option)
+- [x] Save to localStorage
+    - [ ] Ability to share configuration file (parseable ?URL thingy, share code, QR?)
+    - [ ] Ability to save config to server and have a real up-to-date shareable URL
