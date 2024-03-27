@@ -2,6 +2,8 @@ Web Portal
 ===
 A simple startpage with a multi-engine search bar and customizable widgets.
 
+https://tu0m.github.io/webportal/
+
 TO-DO
 ---
 
