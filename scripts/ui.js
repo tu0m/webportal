@@ -12,17 +12,12 @@ const menuElement = document.querySelector('#menu')
 function renderContent(array = storage.load()) {
     if (!array) return
     const widgetGridItems = new DocumentFragment()
-    // const widgetListItems = new DocumentFragment()
 
     array.forEach(object => {
         widgetGridItems.append(_createGridHtml(object))
-        // widgetListItems.append(_createListHtml(object))
     })
 
     widgetGrid.replaceChildren(widgetGridItems)
-    // widgetList.replaceChildren(widgetListItems)
-
-    // updateWidgetDropdown()
     const div = document.querySelector('#widget-type')
     div.replaceChildren(_createListOfWidgetTypes())
 }
@@ -30,7 +25,6 @@ function renderContent(array = storage.load()) {
 function _createGridHtml(object) {
     const htmlTag = document.createElement(widgets.getTag(object.type))
 
-    htmlTag.setAttribute('draggable', true)
     // add default attributes
     for (let key in widgets.getAttributes(object.type)) {
         if (key.startsWith('data-')) continue
@@ -58,11 +52,12 @@ function _createListOfWidgetTypes() {
     select.required = true
     // first option as a title
     let initialOption = document.createElement('option')
-    initialOption.innerText = 'select widget'
+    initialOption.innerText = 'Select widget'
     initialOption.value = ""
     select.appendChild(initialOption)
     // actual options after
     for (let type of types) {
+        if (!widgets.isDraggable(type)) continue
         let option = document.createElement('option')
         option.innerText = type
         option.value = type
