@@ -34,8 +34,12 @@ function dragAndDropHandler(e) {
       drag.over(e)
       break;
     case (e.type == 'drop'):
-      drag.drop(e)
-      ui.renderContent()
+      try {
+        drag.drop(e)
+        ui.renderContent()
+      } catch (error) {
+        // drop failed, do nothing
+      }
       break;
   }
 }
@@ -80,6 +84,7 @@ window.onload = () => {
       widget.addEventListener('dragover', dragAndDropHandler);
       widget.addEventListener('drop', dragAndDropHandler);
     }
+
   }
   observer.observe(widgetGrid, { childList: true })
   callback()

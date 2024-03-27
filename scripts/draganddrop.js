@@ -23,7 +23,6 @@ function end(e) {
     e.target.style.opacity = '1'
     deleteArea.hidePopover()
 
-
     return false
 }
 
@@ -34,6 +33,7 @@ function enter(e) {
     if (e.target.id == 'delete-area') {
         e.target.style.color = 'var(--color-hover)'
     }
+
     return false
 }
 
@@ -44,12 +44,14 @@ function leave(e) {
     if (e.target.id == 'delete-area') {
         e.target.style.color = 'var(--color-text)'
     }
+
     return false
 }
 
 function over(e) {
     // The dragover event is fired when an element or text selection is being dragged over a valid drop target (every few hundred milliseconds).
     e.preventDefault()
+
     return false
 }
 
@@ -60,11 +62,29 @@ function drop(e) {
 
     if (e.target.id == 'delete-area') {
         // delete widget
-        let uuid = e.dataTransfer.getData('text/plain')
+        const uuid = e.dataTransfer.getData('text/plain')
         storage.remove(uuid)
+        return
     }
 
-    return false
+    if (e.target.hasAttribute('uuid')) {
+        // swap widgets position
+        const startUUID = e.dataTransfer.getData('text/plain')
+        const dropUUID = e.target.getAttribute('uuid')
+
+        if (startUUID != dropUUID) {
+            let data = storage.load()
+
+            const startIndex = data.findIndex(item => item.attributes['uuid'] == startUUID)
+            const dropIndex = data.findIndex(item => item.attributes['uuid'] == dropUUID);
+
+            [data[startIndex], data[dropIndex]] = [data[dropIndex], data[startIndex]]
+            storage.save(data)
+            return
+        }
+    }
+
+    throw new Error('drop failed')
 }
 
 export { start, end, enter, leave, over, drop }
