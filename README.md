@@ -41,6 +41,7 @@ TO-DO
 - [ ] Headlines
     - Bar similar to search widget, but moveable?
     - Any free to use news APIs?
+- [ ] Current stock price
 
 ### General
 
