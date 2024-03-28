@@ -1,4 +1,4 @@
-import sheet from './style.css?raw'
+import sheet from './style.module.css?raw'
 import searchEngines from './searchengines.json'
 
 class SearchBar extends HTMLElement {
