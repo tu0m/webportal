@@ -1,4 +1,4 @@
-import sheet from './style.css?inline'
+import sheet from './style.css?raw'
 
 class ClockWidget extends HTMLElement {
     static observedAttributes = ["data-city"];

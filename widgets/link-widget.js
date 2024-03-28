@@ -1,4 +1,4 @@
-import sheet from './style.css?inline'
+import sheet from './style.css?raw'
 
 class LinkWidget extends HTMLElement {
 
