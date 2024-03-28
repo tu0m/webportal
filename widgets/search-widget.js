@@ -1,5 +1,5 @@
-import sheet from './style.css?inline'
-import searchEngines from './searchengines.json' assert { type: "json" }
+import sheet from './style.css?raw'
+import searchEngines from './searchengines.json'
 
 class SearchBar extends HTMLElement {
 

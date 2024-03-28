@@ -3,7 +3,7 @@ import './clock-widget.js'
 import './date-widget.js'
 import './link-widget.js'
 
-import searchEngines from './searchengines.json' assert { type: "json" }
+import searchEngines from './searchengines.json'
 
 const library = [
     {
