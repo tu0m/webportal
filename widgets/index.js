@@ -2,6 +2,7 @@ import './search-widget.js'
 import './clock-widget.js'
 import './date-widget.js'
 import './link-widget.js'
+import './weather-widget.js'
 
 import searchEngines from './searchengines.json'
 
@@ -47,6 +48,18 @@ const library = [
             uuid: _randomUUID
         }
     },
+    {
+        type: "Weather",
+        tag: 'weather-widget',
+        attributes: {
+            'data-country': 'Country',
+            'data-city': 'City',
+            class: 'square widget',
+            tabindex: '0',
+            draggable: true,
+            uuid: _randomUUID
+        }
+    }
 ]
 
 function _searchEngineNames() {
