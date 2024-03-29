@@ -134,7 +134,7 @@ input {
   right: var(--spacing-s);
 
   opacity: 0;
-  transform: translateY(-100%);
+  transform: translateY(-103%);
   transition: all ease-in 0.2s;
 
   border: 3px solid #ccc;
@@ -169,11 +169,15 @@ input {
 #widget-attributes {
   background-color: var(--color-highlight-white);
   border-top: 3px solid #ddd;
+
+  transition: all ease-out 0.5s;
 }
 
 
 #widget-attributes[hidden] {
-  display: none;
+  padding: 0 var(--spacing-m);
+
+  transition: all ease-out 0.5s;
 }
 
 #menu>button {
