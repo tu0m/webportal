@@ -12,7 +12,10 @@ TO-DO
 - [x] Link
 - [x] Time
     - [ ] Time zones, cities
+        - https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
+        - https://wiki.openstreetmap.org/wiki/Nominatim#Reverse_Geocoding_.2F_Address_lookup
     - [ ] Analog clock (separate widget?)
+
 - [x] Date
     - Current day's kanji?
 - [ ] Current price of electricity (Nordpool)
@@ -42,8 +45,9 @@ TO-DO
     - Bar similar to search widget, but moveable?
     - Any free to use news APIs?
 - [ ] Current stock price
+    - https://www.npmjs.com/package/yahoo-finance2
 
-### General
+### General features
 
 - [ ] Themes / change color scheme
     - Auto based on wallpaper?
@@ -54,3 +58,9 @@ TO-DO
 - [x] Save to localStorage
     - [ ] Ability to share configuration file (parseable ?URL thingy, share code, QR?)
     - [ ] Ability to save config to server and have a real up-to-date shareable URL
+
+### Bugs
+
+- Make UI less wide for phones (tested iPhone 14 Pro, vw is 393px?)
+- Inform users if their browser is too old (or add polyfill)
+- iPhone: Stop opening google search of widget uuid when dragging and dropping (happens on drop)
