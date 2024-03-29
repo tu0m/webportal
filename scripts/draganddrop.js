@@ -20,6 +20,8 @@ function start(e) {
 
 function end(e) {
     // The dragend event is fired when a drag operation ends (by releasing a mouse button or hitting the escape key).
+    e.preventDefault()
+
     e.target.style.opacity = '1'
     deleteArea.hidePopover()
 
@@ -57,7 +59,9 @@ function over(e) {
 
 function drop(e) {
     // The drop event is fired when an element or text selection is dropped on a valid drop target.
+    e.preventDefault()
     e.stopPropagation()
+
     deleteArea.hidePopover()
 
     if (e.target.id == 'delete-area') {
