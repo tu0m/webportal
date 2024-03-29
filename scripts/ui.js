@@ -1,6 +1,3 @@
-// menu UI stuff
-// render loaded config to list html
-// parse list html to saveable config
 import * as widgets from '../widgets/index.js'
 import * as storage from '../scripts/storage.js'
 
