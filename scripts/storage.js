@@ -1,19 +1,19 @@
-function save(object) {
+function save(object, item = 'widgets') {
     // check data integrity, discard invalid?
 
     if (!object) return new Error('nothing to save')
     if (!_localStorageAvailable()) return new Error('localStorage failed')
 
-    localStorage.setItem('widgets', JSON.stringify(object))
+    localStorage.setItem(item, JSON.stringify(object))
 }
 
-function load() {
+function load(item = 'widgets') {
     // TODO: check that all attributes are found (in case new ones were added) and fill them with default values if missing?
     // data-attributes should be the only ones unfillable? just delete the ones with missing data-attribute keys?
-    const data = localStorage.getItem('widgets')
+    const data = localStorage.getItem(item)
     if (data) return JSON.parse(data)
-
-    return _loadDefault()
+    if (item == 'widgets') return _loadDefault()
+    return null
 }
 
 function _loadDefault() {
