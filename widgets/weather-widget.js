@@ -1,13 +1,11 @@
 import sheet from './style.module.css?raw'
+import countries from '../json/countries.json'
+import * as storage from '../scripts/storage.js'
 
 class WeatherWidget extends HTMLElement {
 
     constructor() {
         super();
-        this.city = null
-        this.country = null
-        this.coords = null
-        this.weatherData = null
     }
 
     static get observedAttributes() {
@@ -25,7 +23,6 @@ class WeatherWidget extends HTMLElement {
 
         // add html
         const layout = `
-        <div class="top"></div>
         <div class="mid">
         <img class="favicon" src=${this.getIcon('yr')} alt="favicon"/>
         </div>
@@ -35,14 +32,15 @@ class WeatherWidget extends HTMLElement {
 
         // event listeners
 
-
+        // update weather
         this.interval = setInterval(() => {
             this.update()
-        }, 3600000); // 1 hour
+        }, 3600000); // 1 hour 
     }
 
     disconnectedCallback() {
         clearInterval(this.interval)
+        // delete localStorage "weather-widget"
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -51,68 +49,120 @@ class WeatherWidget extends HTMLElement {
             if (name == 'data-country') this.country = newValue
             if (name == 'data-city') this.city = newValue
 
-            if (this.city && this.country) {
-                this.coords = this.fetchCoords(this.city, this.country)
-                this.weatherData = this.fetchWeatherData(this.coords)
-
-
-            }
+            if (this.city && this.country) this.update()
         });
     }
 
-    async fetchCoords(city, countryCode) {
-        // https://www.geonames.org/export/geonames-search.html
+    async update() {
 
-        try {
-            const url = `http://api.geonames.org/searchJSON?name_equals=${city}&country=${countryCode}&maxRows=1&username=tu0m`
-            const res = await fetch(url)
-            if (!res.ok) throw new Error("Network response was not OK")
-            const data = await res.json()
 
-            const latRounded = parseFloat(data.geonames[0].lat).toFixed(3)
-            const lonRounded = parseFloat(data.geonames[0].lng).toFixed(3)
 
-            return { lat: latRounded, lon: lonRounded }
+        let coords = null
+        let weatherData = null
 
-        } catch (error) {
-            console.log(error)
-            return null
-        }
+        // check localStorage
+        let saveData = storage.load()
+        if (saveData) [coords, weatherData] = [saveData['coords'], saveData['weatherData']]
+
+        // fetch coords and weatherData
+        if (!coords) coords = await this.fetchCoords(this.city, this.country)
+        if (coords && !weatherData) weatherData = await this.fetchWeatherData(coords)
+
+        // TODO: coords or weatherData can still be null or undefined because of network issues or incorrect data, handle it?
+
+        const currentTime = new Date().toISOString()
+        const currentHourWeatherData = weatherData.properties.timeseries.find(object => object.time.startsWith(currentTime.slice(0, 13)))
+
+        const currTemp = Math.round(currentHourWeatherData.data.instant.details.air_temperature) + '°C'
+        const symbolCode = currentHourWeatherData.data.next_1_hours.summary.symbol_code
+
+        console.log(currTemp)
+        console.log(symbolCode)
+        console.log(currentHourWeatherData)
+
+
+
+
+        // check if weatherData is still valid (if current hour is found)
+
+        // set city name, weather icon, temperature
+
+        // save data to localStorage
+
+        this.setCity(this.city)
+        this.setIcon(symbolCode)
+        this.setTemp(currTemp)
+
     }
 
-    async fetchWeatherData(coords) {
+    async fetchCoords(city, country, timer = 1) {
+        // https://www.geonames.org/export/geonames-search.html
+        const countryCode = Object.keys(countries).find(key => countries[key] == country)
+
+        const url = `http://api.geonames.org/searchJSON?name_equals=${city}&country=${countryCode}&maxRows=1&username=tu0m`
+
+        return fetch(url)
+            .then(response => {
+                // If the response is successful, get the JSON
+                if (response.ok) return response.json()
+                // retry until response.ok (TODO: testing needed)
+                return new Promise(resolve => setTimeout(resolve, timer)).then(() => this.fetchCoords(city, country, timer * 2))
+
+            }).then(data => {
+                // This is the JSON from our response
+                if (data.totalResultsCount != 0) {
+                    return {
+                        lat: parseFloat(data.geonames[0].lat).toFixed(3),
+                        lon: parseFloat(data.geonames[0].lng).toFixed(3)
+                    }
+                }
+                throw new Error('Failed to find coordinates')
+
+            }).catch(error => {
+                // There was an error
+                console.log(error)
+                console.log('Try deleting and re-adding weather widget and check that both city and country are entered correctly')
+                return null
+            });
+    }
+
+    async fetchWeatherData(coords, timer = 1) {
         // https://api.met.no/weatherapi/locationforecast/2.0/documentation
 
-        if (!coords) return null
+        const url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${coords.lat}&lon=${coords.lon}`
+        const headers = new Headers({
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "User-Agent": "WebPortal https://github.com/tu0m/webportal"
+            }
+        })
 
-        try {
-            const url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${coords.lat}&lon=${coords.lon}`
-            const headers = new Headers({
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "User-Agent": "WebPortal https://github.com/tu0m/webportal"
-                },
-            })
-            const res = await fetch(url, headers)
-            if (!res.ok) throw new Error("Network response was not OK")
-            const data = await res.json()
+        return fetch(url, headers)
+            .then(response => {
+                // If the response is successful, get the JSON
+                if (response.ok) return response.json()
+                // retry until response.ok (TODO: testing needed)
+                return new Promise(resolve => setTimeout(resolve, timer)).then(() => this.fetchWeatherData(coords, timer * 2))
 
-            return data
+            }).then(data => {
+                // This is the JSON from our response
+                return data
 
-        } catch (error) {
-            console.log(error)
-            return null
-        }
-
+            }).catch(error => {
+                // There was an error
+                console.log(error)
+                console.log('Try deleting and re-adding weather widget and check that both city and country are entered correctly')
+                return null
+            });
     }
 
-    update() {
-        // set icon and temp
-        // if city or country not set, don't do anything?
-        // read weatherData and update widget accordingly
-        // if weatherData doesn't have current hour, then fetch new data and use that
-        if (!weatherData) return null
+    save(coords, weatherData) {
+        storage.save('weather-widget', { coords: coords, weatherData: weatherData })
+    }
+
+    get load() {
+        return storage.load('weather-widget')
     }
 
     getIcon(symbolCode) {
@@ -120,15 +170,19 @@ class WeatherWidget extends HTMLElement {
     }
 
     setCity(city) {
-        if (city) this.shadowRoot.querySelector('top').textContent = city
+        // TODO: show city name on mouse hover/touch or make a slow carousel of city, temp, wind, etc
+        // this.shadowRoot.querySelector('.top').textContent = city
     }
 
-    setIcon(icon) {
-
+    setIcon(symbolCode) {
+        const icon = document.createElement('img')
+        icon.src = this.getIcon(symbolCode)
+        icon.alt = 'current weather'
+        this.shadowRoot.querySelector('.mid').replaceChildren(icon)
     }
 
     setTemp(temp) {
-
+        this.shadowRoot.querySelector('.btm').textContent = temp
     }
 }
 
