@@ -4,7 +4,8 @@ import './date-widget.js'
 import './link-widget.js'
 import './weather-widget.js'
 
-import searchEngines from './searchengines.json'
+import searchEngines from '../json/searchengines.json'
+import countries from '../json/countries.json'
 
 const library = [
     {
@@ -52,7 +53,7 @@ const library = [
         type: "Weather",
         tag: 'weather-widget',
         attributes: {
-            'data-country': 'Country',
+            'data-country': _countryNames(),
             'data-city': 'City',
             class: 'square widget',
             tabindex: '0',
@@ -66,6 +67,14 @@ function _searchEngineNames() {
     let array = []
     Object.values(searchEngines).forEach(value => {
         if (value.name) array.push(value.name)
+    })
+    return array
+}
+
+function _countryNames() {
+    let array = []
+    Object.values(countries).forEach(value => {
+        array.push(value)
     })
     return array
 }
