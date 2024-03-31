@@ -43,10 +43,10 @@ function add(object) {
     save(data)
 }
 
-function remove(uuid) {
+function removeWidget(uuid) {
     let data = load()
     let filteredData = data.filter(item => item.attributes['uuid'] != uuid)
     save(filteredData)
 }
 
-export { save, load, add, remove };
+export { save, load, add, remove, removeWidget };

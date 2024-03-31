@@ -67,7 +67,7 @@ function drop(e) {
     if (e.target.id == 'delete-area') {
         // delete widget
         const uuid = e.dataTransfer.getData('text/plain')
-        storage.remove(uuid)
+        storage.removeWidget(uuid)
         return
     }
 
