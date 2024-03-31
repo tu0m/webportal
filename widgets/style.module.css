@@ -25,6 +25,10 @@ button:focus {
     background-color: var(--color-highlight);
 }
 
+img {
+    user-drag: none;
+}
+
 
 /* MODULE CONTENT LAYOUT */
 
@@ -56,6 +60,12 @@ button:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    transition: opacity 0.2s linear;
+}
+
+.fade {
+    opacity: 0;
 }
 
 .container {
@@ -103,14 +113,4 @@ button:focus {
 
     border-radius: var(--radius-s);
     background-color: var(--color-highlight);
-}
-
-.fade-in {
-    opacity: 1;
-    transition: opacity ease-in 0.5;
-}
-
-.fade-out {
-    opacity: 0;
-    transition: opacity ease-out 0.5;
 }
