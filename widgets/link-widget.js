@@ -23,7 +23,7 @@ class LinkWidget extends HTMLElement {
         const layout = `
         <div class="mid">
             
-        <img class="favicon placeholder" src="" alt="favicon"/>
+        <img class="placeholder" src="" alt="favicon"/>
         
         </div>
         <div class="btm"></div>
