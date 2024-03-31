@@ -35,7 +35,8 @@ class WeatherWidget extends HTMLElement {
         shadowRoot.host.addEventListener('click', this.keyPressHandler)
 
         // update weather
-        this.updateInterval = setInterval(this.update, 600000); // 10 minutes
+        // TIL: this needs to have an arrow function so that the reference to 'this' is not lost
+        this.updateInterval = setInterval(() => this.update(), 600000); // 10 minutes
     }
 
     disconnectedCallback() {
