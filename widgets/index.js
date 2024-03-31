@@ -30,7 +30,7 @@ const library = [
         attributes: {
             'data-searchengine': Array.from(Object.values(searchEngines).map(item => item.name).filter(item => item.length != 0)),
             class: 'bar widget',
-            draggable: true,
+            draggable: false,
             uuid: null
         }
     },
