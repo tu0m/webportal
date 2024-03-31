@@ -36,12 +36,18 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .mid {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
 
     height: 100%;
     font-size: 200%;
@@ -60,6 +66,9 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
 
     transition: opacity 0.2s linear;
 }
