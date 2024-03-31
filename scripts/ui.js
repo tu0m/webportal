@@ -2,9 +2,6 @@ import * as widgets from '../widgets/index.js'
 import * as storage from '../scripts/storage.js'
 
 const widgetGrid = document.querySelector('#widget-grid')
-const widgetList = document.querySelector('#widget-list')
-const menuBackdrop = document.querySelector('#menu-bg')
-const menuElement = document.querySelector('#menu')
 
 function renderContent(array = storage.load()) {
     if (!array) return
@@ -46,6 +43,7 @@ function _createListOfWidgetTypes() {
     const types = widgets.getTypes()
 
     const select = document.createElement('select')
+    select.name = 'type'
     select.required = true
     // first option as a title
     let initialOption = document.createElement('option')
