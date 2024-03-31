@@ -94,7 +94,7 @@ class WeatherWidget extends HTMLElement {
         // https://www.geonames.org/export/geonames-search.html
         const countryCode = Object.keys(countries).find(key => countries[key] == country)
 
-        const url = `https://api.geonames.org/searchJSON?name_equals=${city}&country=${countryCode}&maxRows=1&username=tu0m`
+        const url = `https://secure.geonames.org/searchJSON?name_equals=${city}&country=${countryCode}&maxRows=1&username=tu0m`
 
         return fetch(url)
             .then(response => {
