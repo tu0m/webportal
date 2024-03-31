@@ -68,7 +68,6 @@ class LinkWidget extends HTMLElement {
 
         img.onload = (() => {
             if (img.height >= 64) {
-                img.classList = 'favicon'
                 img.alt = 'favicon'
                 img.draggable = false
                 mid.replaceChildren(img)
