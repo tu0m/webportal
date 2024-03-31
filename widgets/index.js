@@ -7,15 +7,31 @@ import './weather-widget.js'
 import searchEngines from '../json/searchengines.json'
 import countries from '../json/countries.json'
 
+const template = [
+    {
+        type: "Public name",
+        tag: '[widgetName]-widget',
+        attributes: {
+            'data-attribute': 'String', // Strings will convert to inputs
+            'data-attribute': ['Array'], // Arrays of strings will convert to dropdown lists
+            class: 'square widget', // Apply standard widget CSS
+            tabindex: '0', // Widget is focusable by keyboard, optional
+            draggable: true, // Widget can be repositioned in grid (is false, widget will not be addable or removable by user)
+            uuid: null // Unique identifier needed for functionality, leave as null
+        }
+    }
+]
+
+
 const library = [
     {
         type: "Search",
         tag: 'search-widget',
         attributes: {
-            'data-searchengine': _searchEngineNames(),
+            'data-searchengine': Array.from(Object.values(searchEngines).map(item => item.name).filter(item => item.length != 0)),
             class: 'bar widget',
-            draggable: false,
-            uuid: _randomUUID
+            draggable: true,
+            uuid: null
         }
     },
     {
@@ -25,7 +41,7 @@ const library = [
             'data-city': 'Location (WIP)',
             class: 'square widget',
             draggable: true,
-            uuid: _randomUUID
+            uuid: null
         }
     },
     {
@@ -34,7 +50,7 @@ const library = [
         attributes: {
             class: 'square widget',
             draggable: true,
-            uuid: _randomUUID
+            uuid: null
         }
     },
     {
@@ -46,42 +62,22 @@ const library = [
             class: 'square widget',
             tabindex: '0',
             draggable: true,
-            uuid: _randomUUID
+            uuid: null
         }
     },
     {
         type: "Weather",
         tag: 'weather-widget',
         attributes: {
-            'data-country': _countryNames(),
+            'data-country': Array.from(Object.values(countries)),
             'data-city': 'City',
             class: 'square widget',
             tabindex: '0',
             draggable: true,
-            uuid: _randomUUID
+            uuid: null
         }
     }
 ]
-
-function _searchEngineNames() {
-    let array = []
-    Object.values(searchEngines).forEach(value => {
-        if (value.name) array.push(value.name)
-    })
-    return array
-}
-
-function _countryNames() {
-    let array = []
-    Object.values(countries).forEach(value => {
-        array.push(value)
-    })
-    return array
-}
-
-function _randomUUID() {
-    return crypto.randomUUID()
-}
 
 function getTypes() {
     return library.map(item => item.type)
