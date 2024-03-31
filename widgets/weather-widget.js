@@ -41,7 +41,8 @@ class WeatherWidget extends HTMLElement {
     disconnectedCallback() {
         clearInterval(this.updateInterval)
         clearInterval(this.setTextInterval)
-        this.deleteAll()
+        // TODO: this will run every time widget is moved. Handle data deletion somewhere else
+        // this.deleteAll()
         this.shadowRoot.host.removeEventListener('keydown', this.keyPressHandler)
         this.shadowRoot.host.removeEventListener('click', this.keyPressHandler)
     }
