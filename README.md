@@ -21,8 +21,8 @@ TO-DO
 - [ ] Current price of electricity (Nordpool)
     - ENTSO-E API: https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html
     - Fingrid API: https://data.fingrid.fi/instructions
-- [ ] Current weather
-    - [ ] yr.no API
+- [x] Current weather (need testing)
+    - [x] yr.no API
 - [x] Search bar with multiple search engines
     - [x] Tab shortcut to change engine
     - [ ] Dropdown menu to change engine (for mobile)
@@ -58,6 +58,7 @@ TO-DO
 - [x] Save to localStorage
     - [ ] Ability to share configuration file (parseable ?URL thingy, share code, QR?)
     - [ ] Ability to save config to server and have a real up-to-date shareable URL
+- [ ] Add tests
 
 ### Bugs
 
