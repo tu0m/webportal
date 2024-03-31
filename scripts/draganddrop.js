@@ -33,7 +33,7 @@ function enter(e) {
     e.preventDefault()
 
     if (e.target.id == 'delete-area') {
-        e.target.style.color = 'var(--color-hover)'
+        e.target.style.color = 'var(--color-alert)'
     }
 
     return false
