@@ -81,6 +81,7 @@ class WeatherWidget extends HTMLElement {
         this.save(coords, weatherData)
 
         // TODO: if precipitation is >0, show the amount in the widget (but if there's multiple weather widgets, they will go out of sync due to having different amount of text items)
+        // TODO: if symbolCode is not available for some reason, show yr.no logo instead
         const currentHourWeatherData = weatherData.properties.timeseries.find(object => object.time.startsWith(nextHour.slice(0, 13)))
         const symbolCode = currentHourWeatherData?.data.next_1_hours.summary.symbol_code
         const currTemp = Math.round(currentHourWeatherData?.data.instant.details.air_temperature) + ' °C'
@@ -166,10 +167,10 @@ class WeatherWidget extends HTMLElement {
         return storage.load(uuid)
     }
 
-    deleteAll() {
-        const uuid = this.getAttribute('uuid')
-        storage.remove(uuid)
-    }
+    // deleteAll() {
+    //     const uuid = this.getAttribute('uuid')
+    //     storage.remove(uuid)
+    // }
 
     getIcon(symbolCode) {
         return new URL(`/icons/weather-widget/${symbolCode}.svg`, import.meta.url).href
@@ -201,7 +202,7 @@ class WeatherWidget extends HTMLElement {
 
                 currentTurn == array.length - 1 ? currentTurn = 0 : currentTurn++
             });
-        }, 7000)
+        }, 6000)
     }
 
     keyPressHandler(e) {
