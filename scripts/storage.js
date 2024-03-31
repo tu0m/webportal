@@ -1,10 +1,14 @@
 function save(object, item = 'widgets') {
     // check data integrity, discard invalid?
+    try {
+        if (!object) return new Error('nothing to save')
+        if (!_localStorageAvailable()) return new Error('localStorage failed')
+        localStorage.setItem(item, JSON.stringify(object))
+    } catch (error) {
+        console.log(error)
 
-    if (!object) return new Error('nothing to save')
-    if (!_localStorageAvailable()) return new Error('localStorage failed')
+    }
 
-    localStorage.setItem(item, JSON.stringify(object))
 }
 
 function load(item = 'widgets') {
@@ -41,6 +45,10 @@ function add(object) {
     let data = load()
     data.push(object)
     save(data)
+}
+
+function remove(key) {
+    localStorage.removeItem(key)
 }
 
 function removeWidget(uuid) {
