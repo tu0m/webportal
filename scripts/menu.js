@@ -1,45 +1,7 @@
 import * as widgets from '../widgets/index.js'
-import * as storage from '../scripts/storage.js'
 
-const widgetGrid = document.querySelector('#widget-grid')
-
-function renderContent(array = storage.load()) {
-    if (!array) return
-    const widgetGridItems = new DocumentFragment()
-
-    array.forEach(object => {
-        widgetGridItems.append(_createGridHtml(object))
-    })
-
-    widgetGrid.replaceChildren(widgetGridItems)
+function createListOfWidgetTypes() {
     const div = document.querySelector('#widget-type')
-    div.replaceChildren(_createListOfWidgetTypes())
-}
-
-function _createGridHtml(object) {
-    const htmlTag = document.createElement(widgets.getTag(object.type))
-
-    // add default attributes
-    for (let key in widgets.getAttributes(object.type)) {
-        if (key.startsWith('data-')) continue
-        // check if attribute value is a function and run it
-        // this is mainly meant for UUID, so that every widget has unique value
-        if (widgets.getAttributes(object.type)[key] instanceof Function) {
-            htmlTag.setAttribute(key, widgets.getAttributes(object.type)[key]())
-        } else {
-            htmlTag.setAttribute(key, widgets.getAttributes(object.type)[key])
-        }
-    }
-
-    // add user set attributes
-    for (let key in object.attributes) {
-        htmlTag.setAttribute(key, object.attributes[key])
-    }
-
-    return htmlTag
-}
-
-function _createListOfWidgetTypes() {
     const types = widgets.getTypes()
 
     const select = document.createElement('select')
@@ -58,7 +20,8 @@ function _createListOfWidgetTypes() {
         option.value = type
         select.appendChild(option)
     }
-    return select
+
+    div.replaceChildren(select)
 }
 
 function createInputsForWidgetAttributes(type) {
@@ -93,8 +56,8 @@ function createInputsForWidgetAttributes(type) {
     }
     dom.childElementCount > 0 ? div.removeAttribute('hidden') : div.setAttribute('hidden', true)
     div.replaceChildren(dom)
-}
 
+}
 
 function newWidget() {
     // create new object if attributes are set
@@ -127,4 +90,4 @@ function newWidget() {
     })
 }
 
-export { renderContent, createInputsForWidgetAttributes, newWidget };
+export { createListOfWidgetTypes, createInputsForWidgetAttributes, newWidget };

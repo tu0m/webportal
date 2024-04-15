@@ -1,17 +1,20 @@
 import './widgets/index.js' // load web component modules
-import * as ui from './scripts/ui.js'
+import * as grid from './scripts/grid.js'
+import * as menu from './scripts/menu.js'
 import * as drag from './scripts/draganddrop.js'
 
 function eventHandler(e) {
   switch (true) {
+    case (e.type == 'beforetoggle' && e.newState == 'open'):
+      menu.createListOfWidgetTypes()
     case (e.type == 'submit'):
-      ui.newWidget()
+      menu.newWidget()
       e.target.hidePopover()
-      ui.createInputsForWidgetAttributes()
-      ui.renderContent()
+      menu.createInputsForWidgetAttributes()
+      grid.renderContent()
       break;
     case (e.type == 'change' && e.target.parentElement.id == 'widget-type'):
-      ui.createInputsForWidgetAttributes(e.target.value)
+      menu.createInputsForWidgetAttributes(e.target.value)
       break;
   }
 }
@@ -36,7 +39,7 @@ function dragAndDropHandler(e) {
     case (e.type == 'drop'):
       try {
         drag.drop(e)
-        ui.renderContent()
+        grid.renderContent()
       } catch (error) {
         // drop failed, do nothing
       }
@@ -53,12 +56,13 @@ function dragAndDropHandler(e) {
   setTimeout(interval, 5000)
 })();
 
-ui.renderContent()
+grid.renderContent()
 
 // setup event listeners
 window.onload = () => {
   // document.addEventListener('keydown', eventHandler)
   // document.addEventListener('mouseup', eventHandler)
+  document.querySelector('#menu').addEventListener('beforetoggle', eventHandler)
   document.addEventListener('change', eventHandler)
   document.addEventListener('submit', eventHandler)
 
