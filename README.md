@@ -65,3 +65,5 @@ TO-DO
 - Make UI less wide for phones (tested iPhone 14 Pro, vw is 393px?)
 - Inform users if their browser is too old (or add polyfill)
 - iPhone: Stop opening google search of widget uuid when dragging and dropping (happens on drop)
+- favicon GET error 404
+- Open in new tab
