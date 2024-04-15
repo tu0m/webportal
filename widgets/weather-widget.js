@@ -36,7 +36,7 @@ class WeatherWidget extends HTMLElement {
 
         // update weather
         // TIL: this needs to have an arrow function so that the reference to 'this' is not lost
-        this.updateInterval = setInterval(() => this.update(), 600000); // 10 minutes
+        this.updateInterval = setInterval(() => this.update(), 1200000); // 20 minutes
     }
 
     disconnectedCallback() {
@@ -186,6 +186,7 @@ class WeatherWidget extends HTMLElement {
     }
 
     setText(...items) {
+        // FIXME: I think sometimes the array messes up and shows empty?
         if (!items) return
         const array = items.filter(item => item)
         const element = this.shadowRoot.querySelector('.btm')
@@ -202,7 +203,7 @@ class WeatherWidget extends HTMLElement {
 
                 currentTurn == array.length - 1 ? currentTurn = 0 : currentTurn++
             });
-        }, 6000)
+        }, 6000) // make this a fixed time regardless of how many items there are in array, also remove rain if it's 0mm
     }
 
     keyPressHandler(e) {
